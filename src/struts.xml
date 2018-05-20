@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+<!--解决乱码    -->
+    <constant name="struts.i18n.encoding" value="UTF-8" />
+<!-- 指定允许上传的文件最大字节数。默认值是2097152(2M) -->
+    <constant name="struts.multipart.maxSize" value="2147483648"/>
+    <!-- 文件上传临时文件-->
+    <constant name="struts.multipart.saveDir" value="d:/temp"/>
+	 <constant name="struts.custom.i18n.resources" value="globalMessages"/>
+<!-- 动态方法调用 
+ <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+--> 
+	 <!-- 是否允许在OGNL表达式中调用静态方法，默认值为false -->  
+   <!--  <constant name="struts.ognl.allowStaticMethodAccess" value="true"/>  --> 
+	  <!-- 指定被struts2处理的请求后缀类型。多个用逗号隔开
+    <constant name="struts.action.extension" value="action,do,htm"/> 
+	   -->  
+	<!-- struts受spring 管理创建 -->
+	 <constant name="struts.objectFactory" value="spring"/>
+	 
+	<!-- 取消struts2标签自带的样式 -->
+	    <constant name="struts.ui.theme" value="simple" />
+       <constant name="struts.ui.templateDir" value="template" />
+       <constant name="struts.ui.templateSuffix" value="ftl" /> 
+       <!-- 页面 -->
+       <package name="struts-global" namespace="/" extends="json-default">
+	   <interceptors>
+           <interceptor name="myExceptionInterceptor"  class="com.nieyue.interceptor.MyExceptionInterceptor"/>
+           <!-- 定义一个拦截器栈 -->
+           <interceptor-stack name="interceptor">
+              <interceptor-ref name="myExceptionInterceptor" />
+  			  <interceptor-ref name="defaultStack" />
+           </interceptor-stack>
+       </interceptors>
+         <default-interceptor-ref name="interceptor" />
+         <!-- 默认异常-->
+	       <global-results>
+				<result name="exception" type="chain">
+	                 <param name="actionName">exceptionAction</param>
+            	</result>
+			</global-results>
+	       <!-- 全局异常 --> 
+	       <global-exception-mappings>
+	            <exception-mapping 
+		            exception="com.nieyue.exception.CommonRollbackException" 
+		            result="exception">
+	            </exception-mapping>
+	            <exception-mapping 
+		            exception="com.nieyue.exception.CommonNotRollbackException" 
+		            result="exception">
+	            </exception-mapping>
+	            <exception-mapping 
+		            exception="java.lang.Exception" 
+		            result="exception">
+	            </exception-mapping>
+	        </global-exception-mappings>
+	        <!-- 返回错误action -->
+	        <action name="exceptionAction" class="com.nieyue.action.ExceptionAction" >
+                <result name="success"  type="json">
+					<param  name="root">result</param>
+				</result> 
+         	</action>
+		</package>
+	 <!-- 工具包 -->
+	<package name="tool" namespace="/tool"  extends="json-default">
+	 <!-- 验证码 -->
+		<action name="imageAction" class="com.nieyue.yanzhengma.ImageAction">
+			<result type="stream">
+				<param name="contentType">image/jpeg</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+	 </package>
+	  <!-- 角色 -->
+	<package name="role" namespace="/role"  extends="json-default">
+		<action name="*" class="com.nieyue.action.RoleAction" method="{1}">
+			<result name="success" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="error" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="input" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">exceptionAction</param>
+			</result>
+		</action>
+	</package>
+	<!-- 账户-->
+	<package name="account" namespace="/account"  extends="json-default">
+		<action name="*" class="com.nieyue.action.AccountAction" method="{1}">
+			<result name="success" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="error" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="input" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">exceptionAction</param>
+			</result>
+		</action>
+	</package>
+	<!-- 课程-->
+	<package name="course" namespace="/course"  extends="json-default">
+		<action name="*" class="com.nieyue.action.CourseAction" method="{1}">
+			<result name="success" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="error" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="input" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">exceptionAction</param>
+			</result>
+		</action>
+	</package>
+	<!-- 专业-->
+	<package name="major" namespace="/major"  extends="json-default">
+		<action name="*" class="com.nieyue.action.MajorAction" method="{1}">
+			<result name="success" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="error" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="input" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">exceptionAction</param>
+			</result>
+		</action>
+	</package>
+	<!-- 班级-->
+	<package name="studentClass" namespace="/studentClass"  extends="json-default">
+		<action name="*" class="com.nieyue.action.StudentClassAction" method="{1}">
+			<result name="success" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="error" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="input" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">exceptionAction</param>
+			</result>
+		</action>
+	</package>
+	<!-- 职称-->
+	<package name="positional" namespace="/positional"  extends="json-default">
+		<action name="*" class="com.nieyue.action.PositionalAction" method="{1}">
+			<result name="success" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="error" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="input" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">exceptionAction</param>
+			</result>
+		</action>
+	</package>
+	<!-- 分数-->
+	<package name="score" namespace="/score"  extends="json-default">
+		<action name="*" class="com.nieyue.action.ScoreAction" method="{1}">
+			<result name="success" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="error" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="input" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">exceptionAction</param>
+			</result>
+		</action>
+	</package>
+	<!-- 教师课程-->
+	<package name="teacherCourse" namespace="/teacherCourse"  extends="json-default">
+		<action name="*" class="com.nieyue.action.TeacherCourseAction" method="{1}">
+			<result name="success" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="error" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="input" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">exceptionAction</param>
+			</result>
+		</action>
+	</package>
+	<!-- 学习调查表-->
+	<package name="survey" namespace="/survey"  extends="json-default">
+		<action name="*" class="com.nieyue.action.SurveyAction" method="{1}">
+			<result name="success" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="error" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="input" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">exceptionAction</param>
+			</result>
+		</action>
+	</package>
+	<!-- 分析-->
+	<package name="analyse" namespace="/analyse"  extends="json-default">
+		<action name="*" class="com.nieyue.action.AnalyseAction" method="{1}">
+			<result name="success" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="error" type="json">
+				<param  name="root">result</param>
+			</result>
+			<result name="input" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">exceptionAction</param>
+			</result>
+		</action>
+	</package>
+
+</struts>    
