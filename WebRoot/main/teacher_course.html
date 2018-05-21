@@ -16,6 +16,7 @@
 					<tr>
 					  <th>序号</th>
 					  <th>教师课程id</th>
+					  <th>类型</th>
 					  <th>教师课程</th>
 					  <th>课程描述</th>
 					  <th>更新时间</th>
@@ -48,9 +49,9 @@
 <!-- add -->
 <div id="teacherCourseAddWrap" style="display:none">
 	<div id="teacherCourseAdd" >
-	<label  class="text-danger">※名称</label>
+	<label  class="text-danger">※类型-名称</label>
 	  <div class=" comment-input-margin">
-	    <select id="courseNameAdd"   style="width:100px">
+	    <select id="courseNameAdd"   style="width:300px">
 	    </select>
 	  </div>
 	  <div class=" comment-input-margin" >
@@ -62,9 +63,9 @@
 <!-- update -->
 <div id="teacherCourseUpdateWrap" style="display:none">
 	<div id="teacherCourseUpdate">
-	<label  class="text-danger">※名称</label>
+	<label  class="text-danger">※类型-名称</label>
 	  <div class=" comment-input-margin">
-		  <select id="courseNameUpdate" style="width:100px">
+		  <select id="courseNameUpdate" style="width:300px">
 		  </select>
 	  </div>
 	  <div class=" comment-input-margin" >
@@ -75,6 +76,14 @@
 <!-- update end-->
 </div>
 <script>
+//1公共基础课、2专业基础课、3专业技术课，4公共选修课
+ 	//初始化列表
+	business.self.typeList=[
+	{id:1,value:'公共基础课'},
+	{id:2,value:'专业基础课'},
+	{id:3,value:'专业技术课'},
+	{id:4,value:'公共选修课'}
+	];
 	//初始化课程列表
 	business.self.getCourseList=function(){
 	business.getList({
@@ -85,7 +94,7 @@
        success:function(){
        var courseSelect="";
        for(var i=0;i<business.courseList.length;i++){
-          courseSelect+="<option  value="+business.courseList[i].courseId+">"+business.courseList[i].name+"</option>";
+          courseSelect+="<option  value="+business.courseList[i].courseId+">"+business.self.typeList[business.courseList[i].type-1].value+"-"+business.courseList[i].name+"</option>";
 		}
 		//数据
 		$("#courseNameAdd").html(courseSelect);
@@ -112,6 +121,9 @@
 						      "<span>"+business.teacherCourseList[i].teacherCourseId+"</span>"+
 						  "</td>"+
 						  "<td>"+
+						      "<span>"+business.self.typeList[business.courseList[i].type-1].value+"</span>"+
+						  "</td>"+
+						  "<td>"+
 						      "<span>"+business.teacherCourseList[i].course.name+"</span>"+
 						  "</td>"+
 						  "<td>"+
@@ -121,6 +133,7 @@
 						      "<span>"+business.teacherCourseList[i].updateDate+"</span>"+
 						  "</td>"+
 						  "<td>"+
+						  	  "<button class='btn btn-info' onclick='business.self.goSurvey("+ JSON.stringify(business.teacherCourseList[i])+")'>学习调查表</span>"+
 						  	  "<button class='btn btn-success' onclick='business.self.goScore("+ JSON.stringify(business.teacherCourseList[i])+")'>成绩</span>"+
 						      "<button class='btn btn-warning updateRoleMenu' onclick='business.self.updateClick("+ JSON.stringify(business.teacherCourseList[i])+")'>修改</span>"+
 						      "<button class='btn btn-danger deleteRoleMenu' onclick='business.self.deleteClick("+business.teacherCourseList[i].teacherCourseId+")'>删除</span>"+
@@ -146,6 +159,17 @@
 	business.self.attribute.teacherCourseId=teacherCourse.teacherCourseId;
 	//加载
 	$(".content_main").load(business.domainUrl+"/main/score.html");
+	};
+	/**
+	**跳转学习调查表
+	*/
+	business.self.goSurvey=function(teacherCourse){
+	//传递课程，学生id滞空
+	business.self.attribute.studentAccountId=null;
+	//设置传递参数
+	business.self.attribute.teacherCourseId=teacherCourse.teacherCourseId;
+	//加载
+	$(".content_main").load(business.domainUrl+"/main/survey.html");
 	};
 	/**
      * 增加

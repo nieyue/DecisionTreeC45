@@ -1,0 +1,401 @@
+<div class="right-body">
+<!-- 学习调查表列表选择 -->
+<div style="margin:10px;">
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">学习调查表列表</label>
+</div>
+<div style="margin:10px;">
+<button class="btn btn-warning " onclick="business.self.goBack()">返回</button>
+<button class="btn btn-primary addRoleMenu addSurveyMenu" onclick="business.self.addClick()">添加学习调查表</button>
+</div>
+<!-- 学习调查表列表选择end -->
+<!-- 学习调查表列表 -->
+		<div style="width:100%" class="tableWrap">
+			<table class="table table-bordered" style="width:100%">
+				<!--表格头-->
+    			<thead>
+					<tr>
+					  <th>序号</th>
+					  <th>学习调查表id</th>
+					  <th>教师</th>
+					  <th>课程类型</th>
+					  <th>课程</th>
+					  <th>学生编号</th>
+					  <th>学生姓名</th>
+					  <th>课后上机学习时间(小时)</th>
+					  <th>课前了解</th>
+					  <th>课堂学习</th>
+					  <th>平时成绩</th>
+					  <th>更新时间</th>
+					  <th >操作</th> 
+					</tr>
+    			</thead>
+    			<!--表格主体-->
+    			<tbody id="tableTbody">
+				</tbody>
+			</table>
+		</div>
+<!-- 学习调查表列表end -->
+	<!-- 页面列表end -->
+
+
+<!-- 分页 -->
+<div class="page_div">
+<!--分页条信息 -->
+	<div class="page_label" id="di">
+		<nav aria-label="Page navigation">
+	    	<ul class="pagination">
+		    </ul>
+		</nav>	
+	</div>
+<!--分页文字信息  -->
+	<div class="page_font"></div>
+</div> 
+<!--分页 end -->
+
+<!-- add -->
+<div id="surveyAddWrap" style="display:none">
+	<div id="surveyAdd" >
+	<label  class="text-danger" id="teacherCourseAddLable">※教师-类型-课程</label>
+	  <div class=" comment-input-margin">
+	    <select id="teacherCourseAdd"   style="width:300px">
+	    </select>
+	  </div>
+	<label  class="text-danger" id="identifierAddLable" >※学生编号</label>
+	  <div class=" comment-input-margin">
+	    <input type="text"   id="identifierAdd"   placeholder="数字">
+	  </div>
+	<label  class="text-danger">※课后上机学习时间（小时）</label>
+	  <div class=" comment-input-margin">
+	    <select id="operateComputerLeaningTimeAdd"   style="width:300px">
+	    </select>
+	  </div>
+	<label  class="text-danger">※课前了解</label>
+	  <div class=" comment-input-margin">
+	     <select id="beforeClassUnderstandAdd"   style="width:300px">
+	    </select>
+	  </div>
+	<label  class="text-danger">※课堂学习</label>
+	  <div class=" comment-input-margin">
+	     <select id="classroomLeaningAdd"   style="width:300px">
+	    </select>
+	  </div>
+	<label  class="text-danger">※平时成绩</label>
+	  <div class=" comment-input-margin">
+	     <select id="peacetimeScoreAdd"   style="width:300px">
+	    </select>
+	  </div>
+	  <div class=" comment-input-margin" >
+	    <button type="button" class="btn btn-primary" id="surveyAddSubmit" >确定</button>
+	  </div>
+	</div>
+</div>
+<!-- add end-->
+<!-- update -->
+<div id="surveyUpdateWrap" style="display:none">
+	<div id="surveyUpdate">
+	<label  class="text-danger" id="teacherCourseUpdateLable">※教师-类型-课程</label>
+	  <div class=" comment-input-margin">
+	     <select id="teacherCourseUpdate"   style="width:300px">
+	    </select>
+	  </div>
+	  <label  class="text-danger" id="identifierUpdateLable">※学生编号</label>
+	  <div class=" comment-input-margin">
+	    <input type="text"   id="identifierUpdate"   placeholder="数字">
+	  </div>
+	<label  class="text-danger">※课后上机学习时间（小时）</label>
+	  <div class=" comment-input-margin">
+	    <select id="operateComputerLeaningTimeUpdate"   style="width:300px">
+	    </select>
+	  </div>
+	<label  class="text-danger">※课前了解</label>
+	  <div class=" comment-input-margin">
+	     <select id="beforeClassUnderstandUpdate"   style="width:300px">
+	    </select>
+	  </div>
+	<label  class="text-danger">※课堂学习</label>
+	  <div class=" comment-input-margin">
+	     <select id="classroomLeaningUpdate"   style="width:300px">
+	    </select>
+	  </div>
+	<label  class="text-danger">※平时成绩</label>
+	  <div class=" comment-input-margin">
+	     <select id="peacetimeScoreUpdate"   style="width:300px">
+	    </select>
+	  </div>
+	  <div class=" comment-input-margin" >
+	    <button type="button" class="btn btn-primary" id="surveyUpdateSubmit" >确定</button>
+	  </div>
+	</div>
+</div>
+<!-- update end-->
+</div>
+<script>
+//1公共基础课、2专业基础课、3专业技术课，4公共选修课
+ 	//初始化列表
+	business.self.typeList=[
+	{id:1,value:'公共基础课'},
+	{id:2,value:'专业基础课'},
+	{id:3,value:'专业技术课'},
+	{id:4,value:'公共选修课'}
+	];
+	var typeSelect="";
+       for(var i=0;i<business.self.typeList.length;i++){
+          typeSelect+="<option  value="+business.self.typeList[i].id+">"+business.self.typeList[i].value+"</option>";
+		}
+	$("#typeAdd").html(typeSelect);
+	$("#typeUpdate").html(typeSelect);
+ 	//初始化列表.课后上机学习时间 （小时）,1。 <5    2。5-10 3。 >10
+	business.self.operateComputerLeaningTimeList=[
+	{id:1,value:'<5'},
+	{id:2,value:'5-10'},
+	{id:3,value:'>10'}
+	];
+	var operateComputerLeaningTimeSelect="";
+       for(var i=0;i<business.self.operateComputerLeaningTimeList.length;i++){
+          operateComputerLeaningTimeSelect+="<option  value="+business.self.operateComputerLeaningTimeList[i].id+">"+business.self.operateComputerLeaningTimeList[i].value+"</option>";
+		}
+	$("#operateComputerLeaningTimeAdd").html(operateComputerLeaningTimeSelect);
+	$("#operateComputerLeaningTimeUpdate").html(operateComputerLeaningTimeSelect);
+ 	//初始化列表.课前了解,1不了解，2了解一点，3基本了解
+	business.self.beforeClassUnderstandList=[
+	{id:1,value:'不了解'},
+	{id:2,value:'了解一点'},
+	{id:3,value:'基本了解'}
+	];
+	var beforeClassUnderstandSelect="";
+       for(var i=0;i<business.self.beforeClassUnderstandList.length;i++){
+          beforeClassUnderstandSelect+="<option  value="+business.self.beforeClassUnderstandList[i].id+">"+business.self.beforeClassUnderstandList[i].value+"</option>";
+		}
+	$("#beforeClassUnderstandAdd").html(beforeClassUnderstandSelect);
+	$("#beforeClassUnderstandUpdate").html(beforeClassUnderstandSelect);
+ 	//初始化列表. 课堂学习,1差，2一般，3良，4优
+	business.self.classroomLeaningList=[
+	{id:1,value:'差'},
+	{id:2,value:'一般'},
+	{id:3,value:'良'},
+	{id:4,value:'优'}
+	];
+		var classroomLeaningSelect="";
+       for(var i=0;i<business.self.classroomLeaningList.length;i++){
+          classroomLeaningSelect+="<option  value="+business.self.classroomLeaningList[i].id+">"+business.self.classroomLeaningList[i].value+"</option>";
+		}
+	$("#classroomLeaningAdd").html(classroomLeaningSelect);
+	$("#classroomLeaningUpdate").html(classroomLeaningSelect);
+ 	//初始化列表.平时成绩,1差，2一般，3良，4优
+	business.self.peacetimeScoreList=[
+	{id:1,value:'差'},
+	{id:2,value:'一般'},
+	{id:3,value:'良'},
+	{id:4,value:'优'}
+	];
+	var peacetimeScoreSelect="";
+       for(var i=0;i<business.self.peacetimeScoreList.length;i++){
+          peacetimeScoreSelect+="<option  value="+business.self.peacetimeScoreList[i].id+">"+business.self.peacetimeScoreList[i].value+"</option>";
+		}
+	$("#peacetimeScoreAdd").html(peacetimeScoreSelect);
+	$("#peacetimeScoreUpdate").html(peacetimeScoreSelect);
+ //初始化教师课程列表
+	business.self.getCourseList=function(){
+	business.getList({
+       countUrl:'/teacherCourse/countAll',
+       listUrl:'/teacherCourse/list',
+       async:false,
+       data:'teacherCourseList',
+       success:function(){
+       var courseSelect="";
+       for(var i=0;i<business.teacherCourseList.length;i++){
+          courseSelect+="<option  value="+business.teacherCourseList[i].teacherCourseId+">"+business.teacherCourseList[i].teacherAccount.realname+"-"+business.self.typeList[business.teacherCourseList[i].course.type-1].value+"-"+business.teacherCourseList[i].course.name+"</option>";
+		}
+		//数据
+		$("#teacherCourseAdd").html(courseSelect);
+		$("#teacherCourseUpdate").html(courseSelect);
+		
+		     }
+     },business.params);
+	}
+	business.self.getCourseList();
+
+	//初始化列表
+	business.self.getList=function(callback){
+	//学生id 
+	if(business.self.attribute.studentAccountId){
+	business.params.studentAccountId=business.self.attribute.studentAccountId;
+	$("#identifierAddLable,#identifierUpdateLable").hide();
+	$("#identifierAdd,#identifierUpdate").hide();
+	
+		$("#teacherCourseAddLable,#teacherCourseUpdateLable").show();
+	$("#teacherCourseAdd,#teacherCourseUpdate").show();
+	}
+	//课程id
+	if(business.self.attribute.teacherCourseId){
+	business.params.teacherCourseId=business.self.attribute.teacherCourseId;
+	$("#teacherCourseAddLable,#teacherCourseUpdateLable").hide();
+	$("#teacherCourseAdd,#teacherCourseUpdate").hide();
+	
+	$("#identifierAddLable,#identifierUpdateLable").show();
+	$("#identifierAdd,#identifierUpdate").show();
+	}
+	business.getList({
+       countUrl:'/survey/countAll',
+       listUrl:'/survey/list',
+       data:'surveyList',
+       success:function(){
+       var tableTbody="";
+       for(var i=0;i<business.surveyList.length;i++){
+			tableTbody+="<tr>"+
+						  "<td>"+
+						      "<span>"+(i+(business.params.currentPage-1)*business.params.pageSize+business.params.startNum)+"</span>"+
+						  "</td>"+
+						  "<td>"+
+						      "<span>"+business.surveyList[i].surveyId+"</span>"+
+						  "</td>"+
+						  "<td>"+
+						      "<span>"+business.surveyList[i].teacherCourse.teacherAccount.realname+"</span>"+
+						  "</td>"+
+						  "<td>"+
+						      "<span>"+business.self.typeList[business.surveyList[i].teacherCourse.course.type-1].value+"</span>"+
+						  "</td>"+
+						  "<td>"+
+						      "<span>"+business.surveyList[i].teacherCourse.course.name+"</span>"+
+						  "</td>"+
+						  "<td>"+
+						      "<span>"+business.surveyList[i].studentAccount.identifier+"</span>"+
+						  "</td>"+
+						  "<td>"+
+						      "<span>"+business.surveyList[i].studentAccount.realname+"</span>"+
+						  "</td>"+
+						  "<td>"+
+						      "<span>"+business.self.operateComputerLeaningTimeList[business.surveyList[i].operateComputerLeaningTime-1].value+"</span>"+
+						  "</td>"+
+						  "<td>"+
+						      "<span>"+business.self.beforeClassUnderstandList[business.surveyList[i].beforeClassUnderstand-1].value+"</span>"+
+						  "</td>"+
+						  "<td>"+
+						      "<span>"+business.self.classroomLeaningList[business.surveyList[i].classroomLeaning-1].value+"</span>"+
+						  "</td>"+
+						  "<td>"+
+						      "<span>"+business.self.peacetimeScoreList[business.surveyList[i].peacetimeScore-1].value+"</span>"+
+						  "</td>"+
+						  "<td>"+
+						      "<span>"+business.surveyList[i].updateDate+"</span>"+
+						  "</td>"+
+						  "<td>"+
+						      "<button class='btn btn-warning updateRoleMenu updateSurveyMenu' onclick='business.self.updateClick("+ JSON.stringify(business.surveyList[i])+")'>修改</span>"+
+						      "<button class='btn btn-danger deleteRoleMenu deleteSurveyMenu' onclick='business.self.deleteClick("+business.surveyList[i].surveyId+")'>删除</span>"+
+						  "</td>"+
+						"</tr>";
+		}
+		//表格数据
+		$("#tableTbody").html(tableTbody);
+		//回调
+		callback();
+		
+		     }
+     },business.params);
+	}
+	//初始化
+	business.initPage(business.self.getList);
+	/**
+     * 增加
+     * p.addUrl 增加url
+     * p.requestObject 请求参数对象
+     * p.success 成功回调
+     */
+     business.self.addClick=function(){
+     business.self.getCourseList();
+     //显示model
+	 business.self.showModel('添加学习调查表','#surveyAddWrap','#surveyAdd');
+	    $(document).off("click","#surveyAddSubmit");
+		$(document).on("click","#surveyAddSubmit",function(){
+		business.addSurvey={
+		identifier:$("#identifierAdd").val(),
+		studentAccountId:business.self.attribute.studentAccountId,
+		teacherCourseId:business.self.attribute.teacherCourseId==null?$("#teacherCourseAdd option:selected").val():business.self.attribute.teacherCourseId,
+		operateComputerLeaningTime:$("#operateComputerLeaningTimeAdd option:selected").val(),
+		beforeClassUnderstand:$("#beforeClassUnderstandAdd option:selected").val(),
+		classroomLeaning:$("#classroomLeaningAdd option:selected").val(),
+		peacetimeScore:$("#peacetimeScoreAdd option:selected").val()
+		};
+		business.add({
+			url:'/survey/add',
+			requestObject:'addSurvey',
+			success:function(){
+			 $("#closeModal").click();
+			 //初始化
+			business.initPage(business.self.getList);
+			business.self.getAnalyseList();
+			}
+		}); 
+		});
+	}
+	/**
+     * 修改
+     * p.url 修改url
+     * p.requestObject 请求参数对象
+     * p.success 成功回调
+     */
+	business.self.updateClick=function(survey){
+	business.self.getCourseList();
+	//显示model
+	 business.self.showModel('修改学习调查表','#surveyUpdateWrap','#surveyUpdate');
+	 //放置对象
+	 $("#teacherCourseUpdate").find("option[value = '"+survey.teacherCourseId+"']").attr("selected","selected");
+	 $("#operateComputerLeaningTimeUpdate").find("option[value = '"+survey.operateComputerLeaningTime+"']").attr("selected","selected");
+	 $("#beforeClassUnderstandUpdate").find("option[value = '"+survey.beforeClassUnderstand+"']").attr("selected","selected");
+	 $("#classroomLeaningUpdate").find("option[value = '"+survey.classroomLeaning+"']").attr("selected","selected");
+	 $("#peacetimeScoreUpdate").find("option[value = '"+survey.peacetimeScore+"']").attr("selected","selected");
+	 $("#identifierUpdate").val(survey.studentAccount.identifier);
+	 //绑定
+	$(document).off("click","#surveyUpdateSubmit");
+	$(document).on("click","#surveyUpdateSubmit",function(){
+	business.updateSurvey=survey;//复制
+	business.updateSurvey.teacherCourseId=business.self.attribute.teacherCourseId==null?$("#teacherCourseUpdate option:selected").val():business.self.attribute.teacherCourseId;
+	business.updateSurvey.operateComputerLeaningTime=$("#operateComputerLeaningTimeUpdate option:selected").val();
+	business.updateSurvey.beforeClassUnderstand=$("#beforeClassUnderstandUpdate option:selected").val();
+	business.updateSurvey.classroomLeaning=$("#classroomLeaningUpdate option:selected").val();
+	business.updateSurvey.peacetimeScore=$("#peacetimeScoreUpdate option:selected").val();
+	business.updateSurvey.identifier=$("#identifierUpdate").val(),
+	 business.update({
+      url:"/survey/update",
+      requestObject:'updateSurvey',
+      success:function(){
+      $("#closeModal").click();
+      //初始化
+		business.initPage(business.self.getList);
+      }
+      }); 
+	});
+	};
+	/**
+     * 删除
+     * p.url 修改url
+     * p.requestObject 请求参数对象
+     * p.success 成功回调
+     */
+     business.self.deleteClick=function(surveyId){
+     business.deleteSurvey={
+		surveyId:surveyId
+	 };
+      business.delete({
+      url:"/survey/delete",
+      requestObject:'deleteSurvey',
+      success:function(){
+      //初始化
+	business.initPage(business.self.getList);
+      }
+      })
+     }
+    
+	 /**
+     **返回教师课程管理或者学生管理
+     */
+     business.self.goBack=function(){
+     	if(business.self.attribute.studentAccountId){
+       business.clickLeftMenu('student');
+     	}
+     	if(business.self.attribute.teacherCourseId){
+     	
+       business.clickLeftMenu('teacher_course');
+     	}
+     }
+</script>

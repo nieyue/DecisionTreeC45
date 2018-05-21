@@ -92,6 +92,12 @@ business={
 				".addRoleMenu," +
 				".updateRoleMenu," +
 				".deleteRoleMenu").hide();
+				//学生列表的成绩按钮
+				$(".studentScoreMenu").hide();
+				//教师课程列表的学习调查表按钮
+				$(".addSurveyMenu,.updateSurveyMenu,.deleteSurveyMenu").hide();
+				//教师课程列表的成绩按钮
+				$(".addScoreMenu,.updateScoreMenu,.deleteScoreMenu").hide();
 				//一级导航级别
 				//所有可见，自身账户、账户列表
 				$("#accountMenu").css("display","block");	
@@ -108,16 +114,28 @@ business={
 					//增删改按钮级别控制 class类，addRoleMenu,updateRoleMenu,deleteRoleMenu
 					$(".addRoleMenu").css("display","inline-block");				
 					$(".updateRoleMenu").css("display","inline-block");				
-					$(".deleteRoleMenu").css("display","inline-block");		
+					$(".deleteRoleMenu").css("display","inline-block");	
+					
+					$(".studentScoreMenu").show();
 				}
 				//二级导航级别
 				//只有教师可见
 				if(business.sessionRole.name=="教师"){
-					$("#teacherMenu").css("display","block");				
+					$("#teacherMenu").css("display","block");
+					$("#studentMenu").css("display","block");	
+					
+					$(".addSurveyMenu").css("display","inline-block");				
+					$(".updateSurveyMenu").css("display","inline-block");				
+					$(".deleteSurveyMenu").css("display","inline-block");	
+					
+					$(".addScoreMenu").css("display","inline-block");				
+					$(".updateScoreMenu").css("display","inline-block");				
+					$(".deleteScoreMenu").css("display","inline-block");	
 				}
 				//只有学生可见
 				if(business.sessionRole.name=="学生"){
-					$("#studentMenu").css("display","block");					
+					$("#studentMenu").css("display","block");
+					$(".studentScoreMenu").show();
 				}
 				},100);
 				

@@ -15,6 +15,7 @@
 					<tr>
 					  <th>序号</th>
 					  <th>课程id</th>
+					  <th>类型</th>
 					  <th>名称</th>
 					  <th>描述</th>
 					  <th>更新时间</th>
@@ -47,6 +48,11 @@
 <!-- add -->
 <div id="courseAddWrap" style="display:none">
 	<div id="courseAdd" >
+		<label class="text-danger" >※类型</label>
+	  <div class="comment-input-margin ">
+	    <select id="typeAdd" style="width:100px">
+		  </select>
+	  </div>
 	<label  class="text-danger">※名称</label>
 	  <div class=" comment-input-margin">
 	    <input type="text" class=" comment-input"  id="nameAdd"  placeholder="2-16位">
@@ -64,6 +70,11 @@
 <!-- update -->
 <div id="courseUpdateWrap" style="display:none">
 	<div id="courseUpdate">
+		<label class="text-danger" >※类型</label>
+	  <div class="comment-input-margin ">
+	    <select id="typeUpdate" style="width:100px">
+		  </select>
+	  </div>
 	<label  class="text-danger">※名称</label>
 	  <div class=" comment-input-margin">
 	    <input type="text" class=" comment-input"  id="nameUpdate"  placeholder="2-16位">
@@ -80,7 +91,20 @@
 <!-- update end-->
 </div>
 <script>
- 
+ //1公共基础课、2专业基础课、3专业技术课，4公共选修课
+ 	//初始化列表
+	business.self.typeList=[
+	{id:1,value:'公共基础课'},
+	{id:2,value:'专业基础课'},
+	{id:3,value:'专业技术课'},
+	{id:4,value:'公共选修课'}
+	];
+	var typeSelect="";
+       for(var i=0;i<business.self.typeList.length;i++){
+          typeSelect+="<option  value="+business.self.typeList[i].id+">"+business.self.typeList[i].value+"</option>";
+		}
+	$("#typeAdd").html(typeSelect);
+	$("#typeUpdate").html(typeSelect);
 	//初始化列表
 	business.self.getList=function(callback){
 	business.getList({
@@ -96,6 +120,9 @@
 						  "</td>"+
 						  "<td>"+
 						      "<span>"+business.courseList[i].courseId+"</span>"+
+						  "</td>"+
+						  "<td>"+
+						      "<span>"+business.self.typeList[business.courseList[i].type-1].value+"</span>"+
 						  "</td>"+
 						  "<td>"+
 						      "<span>"+business.courseList[i].name+"</span>"+
@@ -133,6 +160,7 @@
 	    $(document).off("click","#courseAddSubmit");
 		$(document).on("click","#courseAddSubmit",function(){
 		business.addCourse={
+		type:$("#typeAdd option:selected").val(),
 		name:$("#nameAdd").val(),
 		duty:$("#dutyAdd").val()
 		};
@@ -157,12 +185,14 @@
 	//显示model
 	 business.self.showModel('修改课程','#courseUpdateWrap','#courseUpdate');
 	 //放置对象
+	  $("#typeUpdate").find("option[value = '"+course.type+"']").attr("selected","selected");
 	 $("#nameUpdate").val(course.name)
 	 $("#dutyUpdate").val(course.duty)
 	 //绑定
 	$(document).off("click","#courseUpdateSubmit");
 	$(document).on("click","#courseUpdateSubmit",function(){
 	business.updateCourse=course;//复制
+	business.updateCourse.type=$("#typeUpdate option:selected").val();
 	business.updateCourse.name=$("#nameUpdate").val(),
 	business.updateCourse.duty=$("#dutyUpdate").val(),
 	 business.update({

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nieyue.bean.Account;
@@ -45,7 +46,14 @@ public class ScoreAction extends BaseAction<Score,Integer>{
 	private DecisionTreeBusiness decisionTreeBusiness;
 	//private DecisionTreeBusiness decisionTreeBusiness=new DecisionTreeBusiness();
 	private Score score=new Score();//成绩模型
-
+	private String identifier;
+	
+	public String getIdentifier() {
+		return identifier;
+	}
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
 	@Override
 	public Score getModel() {
 		return score;
@@ -54,6 +62,22 @@ public class ScoreAction extends BaseAction<Score,Integer>{
 	 * 增加
 	 */
 	public String add()  {
+		if(StringUtils.isNotEmpty(identifier)){
+			Map<String, Object> eqaccount=new HashMap<>();
+			eqaccount.put("identifier", identifier);
+			List<Account> al = accountService.list(1, 1, null, null, eqaccount, null, null, null, null, null, null, null);
+			Map<String,List<TeacherCourse> > map=new HashMap<>();
+			if(al.size()<=0){
+				result=ResultUtil.getSlefSRList("50001","没有此学生编号",
+						MyJSON.getJSONObject(map));
+				return ERROR;
+			}else if(al.get(0).getMajorId()==null||al.get(0).getMajorId()==0){
+				result=ResultUtil.getSlefSRList("50002","非学生编号错误",
+						MyJSON.getJSONObject(map));
+				return ERROR;
+			}
+			score.setStudentAccountId(al.get(0).getAccountId());
+		}
 		Map<String, Object> eq=new HashMap<>();
 		eq.put("studentAccountId", score.getStudentAccountId());
 		eq.put("teacherCourseId", score.getTeacherCourseId());
@@ -98,6 +122,22 @@ public class ScoreAction extends BaseAction<Score,Integer>{
 				}
 			}
 			return rr;
+		}
+		if(StringUtils.isNotEmpty(identifier)){
+			Map<String, Object> eqaccount=new HashMap<>();
+			eqaccount.put("identifier", identifier);
+			List<Account> al = accountService.list(1, 1, null, null, eqaccount, null, null, null, null, null, null, null);
+			Map<String,List<TeacherCourse> > map=new HashMap<>();
+			if(al.size()<=0){
+				result=ResultUtil.getSlefSRList("50001","没有此学生编号",
+						MyJSON.getJSONObject(map));
+				return ERROR;
+			}else if(al.get(0).getMajorId()==null||al.get(0).getMajorId()==0){
+				result=ResultUtil.getSlefSRList("50002","非学生编号错误",
+						MyJSON.getJSONObject(map));
+				return ERROR;
+			}
+			score.setStudentAccountId(al.get(0).getAccountId());
 		}
 		eq.put("studentAccountId", score.getStudentAccountId());
 		eq.put("teacherCourseId", score.getTeacherCourseId());

@@ -5,7 +5,7 @@
 </div>
 <div style="margin:10px;">
 <button class="btn btn-warning " onclick="business.self.goBack()">返回</button>
-<button class="btn btn-primary addRoleMenu" onclick="business.self.addClick()">添加成绩</button>
+<button class="btn btn-primary addRoleMenu addScoreMenu" onclick="business.self.addClick()">添加成绩</button>
 </div>
 <!-- 成绩列表选择end -->
 <!-- 成绩列表 -->
@@ -17,8 +17,9 @@
 					  <th>序号</th>
 					  <th>成绩id</th>
 					  <th>教师</th>
+					  <th>课程类型</th>
 					  <th>课程</th>
-					  <th>学生id</th>
+					  <th>学生编号</th>
 					  <th>学生姓名</th>
 					  <th>成绩</th>
 					  <th>更新时间</th>
@@ -51,10 +52,14 @@
 <!-- add -->
 <div id="scoreAddWrap" style="display:none">
 	<div id="scoreAdd" >
-	<label  class="text-danger">※教师-课程</label>
+	<label  class="text-danger" id="teacherCourseAddLable">※教师-类型-课程</label>
 	  <div class=" comment-input-margin">
 	    <select id="teacherCourseAdd"   style="width:300px">
 	    </select>
+	  </div>
+	<label  class="text-danger" id="identifierAddLable" >※学生编号</label>
+	  <div class=" comment-input-margin">
+	    <input type="text"   id="identifierAdd"   placeholder="数字">
 	  </div>
 	<label  class="text-danger">※成绩</label>
 	  <div class=" comment-input-margin">
@@ -69,10 +74,14 @@
 <!-- update -->
 <div id="scoreUpdateWrap" style="display:none">
 	<div id="scoreUpdate">
-	<label  class="text-danger">※教师-课程</label>
+	<label  class="text-danger" id="teacherCourseUpdateLable">※教师-类型-课程</label>
 	  <div class=" comment-input-margin">
 	     <select id="teacherCourseUpdate"   style="width:300px">
 	    </select>
+	  </div>
+	  <label  class="text-danger" id="identifierUpdateLable">※学生编号</label>
+	  <div class=" comment-input-margin">
+	    <input type="text"   id="identifierUpdate"   placeholder="数字">
 	  </div>
 	  <label  class="text-danger">※成绩</label>
 	  <div class=" comment-input-margin">
@@ -92,6 +101,14 @@
 </div>
 </div>
 <script>
+ //1公共基础课、2专业基础课、3专业技术课，4公共选修课
+ 	//初始化列表
+	business.self.typeList=[
+	{id:1,value:'公共基础课'},
+	{id:2,value:'专业基础课'},
+	{id:3,value:'专业技术课'},
+	{id:4,value:'公共选修课'}
+	];
   //初始化分析结果
 	business.self.getAnalyseList=function(){
 	var params={};
@@ -128,7 +145,7 @@
        success:function(){
        var courseSelect="";
        for(var i=0;i<business.teacherCourseList.length;i++){
-          courseSelect+="<option  value="+business.teacherCourseList[i].teacherCourseId+">"+business.teacherCourseList[i].account.realname+"-"+business.teacherCourseList[i].course.name+"</option>";
+          courseSelect+="<option  value="+business.teacherCourseList[i].teacherCourseId+">"+business.teacherCourseList[i].teacherAccount.realname+"-"+business.self.typeList[business.teacherCourseList[i].course.type-1].value+"-"+business.teacherCourseList[i].course.name+"</option>";
 		}
 		//数据
 		$("#teacherCourseAdd").html(courseSelect);
@@ -144,10 +161,20 @@
 	//学生id 
 	if(business.self.attribute.studentAccountId){
 	business.params.studentAccountId=business.self.attribute.studentAccountId;
+	$("#identifierAddLable,#identifierUpdateLable").hide();
+	$("#identifierAdd,#identifierUpdate").hide();
+	
+		$("#teacherCourseAddLable,#teacherCourseUpdateLable").show();
+	$("#teacherCourseAdd,#teacherCourseUpdate").show();
 	}
 	//课程id
 	if(business.self.attribute.teacherCourseId){
 	business.params.teacherCourseId=business.self.attribute.teacherCourseId;
+	$("#teacherCourseAddLable,#teacherCourseUpdateLable").hide();
+	$("#teacherCourseAdd,#teacherCourseUpdate").hide();
+	
+	$("#identifierAddLable,#identifierUpdateLable").show();
+	$("#identifierAdd,#identifierUpdate").show();
 	}
 	business.getList({
        countUrl:'/score/countAll',
@@ -164,13 +191,16 @@
 						      "<span>"+business.scoreList[i].scoreId+"</span>"+
 						  "</td>"+
 						  "<td>"+
-						      "<span>"+business.scoreList[i].teacherCourse.account.realname+"</span>"+
+						      "<span>"+business.scoreList[i].teacherCourse.teacherAccount.realname+"</span>"+
+						  "</td>"+
+						  "<td>"+
+						      "<span>"+business.self.typeList[business.scoreList[i].teacherCourse.course.type-1].value+"</span>"+
 						  "</td>"+
 						  "<td>"+
 						      "<span>"+business.scoreList[i].teacherCourse.course.name+"</span>"+
 						  "</td>"+
 						  "<td>"+
-						      "<span>"+business.scoreList[i].studentAccount.accountId+"</span>"+
+						      "<span>"+business.scoreList[i].studentAccount.identifier+"</span>"+
 						  "</td>"+
 						  "<td>"+
 						      "<span>"+business.scoreList[i].studentAccount.realname+"</span>"+
@@ -182,8 +212,8 @@
 						      "<span>"+business.scoreList[i].updateDate+"</span>"+
 						  "</td>"+
 						  "<td>"+
-						      "<button class='btn btn-warning updateRoleMenu' onclick='business.self.updateClick("+ JSON.stringify(business.scoreList[i])+")'>修改</span>"+
-						      "<button class='btn btn-danger deleteRoleMenu' onclick='business.self.deleteClick("+business.scoreList[i].scoreId+")'>删除</span>"+
+						      "<button class='btn btn-warning updateRoleMenu updateScoreMenu' onclick='business.self.updateClick("+ JSON.stringify(business.scoreList[i])+")'>修改</span>"+
+						      "<button class='btn btn-danger deleteRoleMenu deleteScoreMenu' onclick='business.self.deleteClick("+business.scoreList[i].scoreId+")'>删除</span>"+
 						  "</td>"+
 						"</tr>";
 		}
@@ -219,8 +249,9 @@
 	    return;
 	    }
 		business.addScore={
+		identifier:$("#identifierAdd").val(),
 		studentAccountId:business.self.attribute.studentAccountId,
-		teacherCourseId:$("#teacherCourseAdd option:selected").val(),
+		teacherCourseId:business.self.attribute.teacherCourseId==null?$("#teacherCourseAdd option:selected").val():business.self.attribute.teacherCourseId,
 		score:$("#scoreAdd1").val()
 		};
 		business.add({
@@ -247,7 +278,8 @@
 	 business.self.showModel('修改成绩','#scoreUpdateWrap','#scoreUpdate');
 	 //放置对象
 	 $("#teacherCourseUpdate").find("option[value = '"+score.teacherCourseId+"']").attr("selected","selected");
-	 $("#scoreUpdate1").val(score.score)
+	 $("#scoreUpdate1").val(score.score);
+	 $("#identifierUpdate").val(score.studentAccount.identifier);
 	 //绑定
 	$(document).off("click","#scoreUpdateSubmit");
 	$(document).on("click","#scoreUpdateSubmit",function(){
@@ -260,8 +292,9 @@
 	    return;
 	    }
 	business.updateScore=score;//复制
-	business.updateScore.teacherCourseId=$("#teacherCourseUpdate option:selected").val();
+	business.updateScore.teacherCourseId=business.self.attribute.teacherCourseId==null?$("#teacherCourseUpdate option:selected").val():business.self.attribute.teacherCourseId;
 	business.updateScore.score=$("#scoreUpdate1").val(),
+	business.updateScore.identifier=$("#identifierUpdate").val(),
 	 business.update({
       url:"/score/update",
       requestObject:'updateScore',

@@ -28,7 +28,7 @@ public class Survey implements java.io.Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer surveyId;
 	/**
-	 * 课后上机学习时间 ,单位小时
+	 * 课后上机学习时间 （小时）,1。 <5    2。5-10 3。 >10
 	 */
 	private Integer operateComputerLeaningTime;
 	/**
