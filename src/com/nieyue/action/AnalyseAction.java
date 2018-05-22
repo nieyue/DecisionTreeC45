@@ -29,6 +29,7 @@ public class AnalyseAction extends BaseAction<Analyse,Integer>{
 	public Analyse getModel() {
 		return analyse;
 	}
+
 	/**
 	 * 增加
 	 */

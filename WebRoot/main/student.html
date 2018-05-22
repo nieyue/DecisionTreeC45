@@ -220,6 +220,7 @@ business.self.sexList=[
 						      "<span>"+business.accountList[i].loginDate+"</span>"+
 						  "</td>"+
 						  "<td>"+
+						  		"<button class='btn btn-info studentSurveyMenu' onclick='business.self.goSurvey("+ JSON.stringify(business.accountList[i])+")'>学习调查表</span>"+
 						  		"<button class='btn btn-success studentScoreMenu' onclick='business.self.goScore("+ JSON.stringify(business.accountList[i])+")'>成绩</span>"+
 						        "<button class='btn btn-warning updateRoleMenu' onclick='business.self.updateClick("+ JSON.stringify(business.accountList[i])+")'>修改</span>"+
 						        "<button class='btn btn-danger deleteRoleMenu' onclick='business.self.deleteClick("+business.accountList[i].accountId+")'>删除</span>"+
@@ -246,6 +247,17 @@ business.self.sexList=[
 	business.self.attribute.studentAccountId=account.accountId;
 	//加载
 	$(".content_main").load(business.domainUrl+"/main/score.html");
+	};
+	/**
+	**跳转学习调查表
+	*/
+	business.self.goSurvey=function(account){
+	//传递学生，课程id滞空
+	business.self.attribute.teacherCourseId=null;
+	//设置传递参数
+	business.self.attribute.studentAccountId=account.accountId;
+	//加载
+	$(".content_main").load(business.domainUrl+"/main/survey.html");
 	};
 	/**
      * 增加

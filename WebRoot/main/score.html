@@ -113,13 +113,8 @@
 	business.self.getAnalyseList=function(){
 	var params={};
 	if(business.self.attribute.studentAccountId){
-	params.type=2;
-	params.businessId=business.self.attribute.studentAccountId;
-	}
-	if(business.self.attribute.teacherCourseId){
 	params.type=1;
-	params.businessId=business.self.attribute.teacherCourseId;
-	}
+	params.businessId=business.self.attribute.studentAccountId;
 	business.getList({
        countUrl:'/analyse/countAll',
        listUrl:'/analyse/list',
@@ -134,6 +129,11 @@
 		$("#analyse").html(courseSelect);
 		     }
      },params);
+	}
+	}
+	if(business.self.attribute.teacherCourseId){
+	//params.type=1;
+	//params.businessId=business.self.attribute.teacherCourseId;
 	}
  //初始化教师课程列表
 	business.self.getCourseList=function(){

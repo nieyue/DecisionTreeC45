@@ -92,6 +92,8 @@ business={
 				".addRoleMenu," +
 				".updateRoleMenu," +
 				".deleteRoleMenu").hide();
+				//学生列表的学习调查表按钮
+				$(".studentSurveyMenu").hide();
 				//学生列表的成绩按钮
 				$(".studentScoreMenu").hide();
 				//教师课程列表的学习调查表按钮
@@ -135,6 +137,7 @@ business={
 				//只有学生可见
 				if(business.sessionRole.name=="学生"){
 					$("#studentMenu").css("display","block");
+					$(".studentSurveyMenu").show();
 					$(".studentScoreMenu").show();
 				}
 				},100);
