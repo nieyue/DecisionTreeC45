@@ -1,7 +1,10 @@
 package com.nieyue.c45;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class TreeNode {  
     public String attribute;  
@@ -66,7 +69,7 @@ public class TreeNode {
       
     public void print(String depth) {  
         if(!this.isLeaf){  
-            System.out.println(depth + this.attribute);  
+            System.out.println(depth + this.attribute+"!!!!");  
             depth += "\t";  
             for(int i = 0; i < this.attributeValue.size(); i++) {  
                 System.out.println(depth + "---(" + this.attributeValue.get(i) + ")---" );  
@@ -77,6 +80,33 @@ public class TreeNode {
         }  
           
           
+    }  
+    public String studentPrint(String result,String depth,Map<String,String> map) {
+    	if(!this.isLeaf){  
+    		System.out.println(depth + this.attribute+"!!!!");  
+    		depth += "\t";  
+    		for(int i = 0; i < this.attributeValue.size(); i++) {  
+    			Iterator<Entry<String, String>> mapIt = map.entrySet().iterator();
+    			while(mapIt.hasNext()){
+    				Entry<String, String> entry = mapIt.next();
+    				if(
+    					entry.getKey().equals(this.attribute)
+    						&&
+    						entry.getValue().equals(this.attributeValue.get(i))){
+    					//System.err.print(entry );
+    					//System.err.println(this.getAttributeValue().get(i));
+    					System.out.println(depth + "---(" + this.attributeValue.get(i) + ")---" );  
+    					result=this.child.get(i).studentPrint(result,depth + "\t",map);  
+    				}
+    			}
+    		}  
+    	} else {  
+    		
+    		result=this.targetValue;
+    		System.out.println(depth + "[" + this.targetValue + "]");  
+    	}  
+    	return result;
+    	
     }  
       
 }

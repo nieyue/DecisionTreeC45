@@ -279,6 +279,8 @@ business={
      * p.success 成功回调
      */
 	 getList:function(p,params){
+		 //是否清空
+		 p.isClear=p.isClear==false?false:true;
 		 $.ajax({
 				url:p.countUrl,
 				type:"post",
@@ -289,7 +291,7 @@ business={
 				if(data.code==200){
 					//console.log(data.data.total)
 					params.total=data.data.total;
-					if(params.total<=0 ){
+					if(p.isClear&&params.total<=0 ){
 						myUtils.myLoadingToast("暂无数据")
 						//清空table body
 						$("#tableTbody").html("");

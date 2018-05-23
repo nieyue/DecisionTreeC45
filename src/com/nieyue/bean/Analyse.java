@@ -47,7 +47,7 @@ public class Analyse implements java.io.Serializable {
 	 */
 	private Date updateDate;
 	/**
-	 * 业务id,type=1学生账户id
+	 * 业务id,type=1学生账户成绩id
 	 */
 	private Integer businessId;
 	public Integer getAnalyseId() {

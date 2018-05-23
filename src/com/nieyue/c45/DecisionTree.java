@@ -1,10 +1,11 @@
 package com.nieyue.c45;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,9 +27,31 @@ public class DecisionTree {
     	TreeNode tree = new TreeNode();  
           
         //检查是否单一的
-        if(DataSetUtil.isPure(DataSetUtil.getTarget(dataset))) {  
+        if(DataSetUtil.isPure(DataSetUtil.getTarget(dataset))
+        		||attribute.size()<=0) { 
+        	
+            //统计每个结果的次数
+            Map<String,Integer> map=new HashMap<>();
+            List<String> rl = DataSetUtil.getTarget(dataset);
+            for (int i = 0; i < rl.size(); i++) {
+            	if(map.get(rl.get(i))!=null){
+            		map.put(rl.get(i), map.get(rl.get(i))+1);				            		
+            	}else{
+            		map.put(rl.get(i), +1);				            		
+            	}
+			}
+            //选取次数最多的
+            Iterator<Entry<String, Integer>> mapIt = map.entrySet().iterator();
+            Entry<String, Integer> maxentry=mapIt.next();
+            while (mapIt.hasNext()) {
+            	Entry<String, Integer> entry = mapIt.next();
+				if(entry.getValue()>maxentry.getValue()){
+					maxentry=entry;
+				}
+			}
+            //System.err.println(DataSetUtil.getTarget(dataset));
             tree.setLeaf(true);  
-            tree.setTargetValue(DataSetUtil.getTarget(dataset).get(0));  
+            tree.setTargetValue(maxentry.getKey());
             return tree;  
         }  
         //选择最好的属性
@@ -40,51 +63,16 @@ public class DecisionTree {
         List<String> subAttribute = new ArrayList<String>();  
         subAttribute.addAll(attribute);  
         subAttribute.remove(bestAttr);  
-        for(String attrValue : attrValueList) {  
-            //更新数据集dataset  
-            List<ArrayList<String>> subDataSet = DataSetUtil.getSubDataSetByAttribute(dataset, bestAttr, attrValue);  
-            //递归构建子树  
-            TreeNode childTree = createDecisionTree(subAttribute, subDataSet);  
-            tree.addAttributeValue(attrValue);  
-            tree.addChild(childTree);  
-        }  
+	        for(String attrValue : attrValueList) {  
+	            //更新数据集dataset  
+	            List<ArrayList<String>> subDataSet = DataSetUtil.getSubDataSetByAttribute(dataset, bestAttr, attrValue);  
+	            //递归构建子树  
+	            TreeNode childTree = createDecisionTree(subAttribute, subDataSet);  
+	            tree.addAttributeValue(attrValue);  
+	            tree.addChild(childTree);  
+	        }  
   
         return tree;  
-    }  
-    /**
-     * 建立决策树  
-     * @param attribute
-     * @param dataset
-     * @return
-     */
-    public TreeNode createDecisionTree(List<String> attribute, List<ArrayList<String>> dataset,Integer studentAccountId) {  
-    	TreeNode tree = new TreeNode();  
-    	
-    	//检查是否单一的
-    	if(DataSetUtil.isPure(DataSetUtil.getTarget(dataset))) {  
-    		tree.setLeaf(true);  
-    		tree.setTargetValue(DataSetUtil.getTarget(dataset).get(0));  
-    		return tree;  
-    	}  
-    	//选择最好的属性
-    	int bestAttr = getBestAttribute(attribute, dataset,studentAccountId);  
-    	//创建决策树 
-    	tree.setAttribute(attribute.get(bestAttr));  
-    	tree.setLeaf(false);  
-    	List<String> attrValueList = DataSetUtil.getAttributeValueOfUnique(bestAttr, dataset);      
-    	List<String> subAttribute = new ArrayList<String>();  
-    	subAttribute.addAll(attribute);  
-    	subAttribute.remove(bestAttr);  
-    	for(String attrValue : attrValueList) {  
-    		//更新数据集dataset  
-    		List<ArrayList<String>> subDataSet = DataSetUtil.getSubDataSetByAttribute(dataset, bestAttr, attrValue);  
-    		//递归构建子树  
-    		TreeNode childTree = createDecisionTree(subAttribute, subDataSet);  
-    		tree.addAttributeValue(attrValue);  
-    		tree.addChild(childTree);  
-    	}  
-    	
-    	return tree;  
     }  
       
     /** 
@@ -106,32 +94,8 @@ public class DecisionTree {
             }  
         }  
           
-        System.out.println("最好的属性是:" + attribute.get(bestAttr));  
+    		System.out.println("最好的属性是:" + attribute.get(bestAttr));  
         return bestAttr;  
-    }  
-    /** 
-     * 选出最优属性 
-     * @param attribute 
-     * @param dataset 
-     * @return 
-     */  
-    public int getBestAttribute(List<String> attribute, List<ArrayList<String>> dataset,Integer studentAccountId) {  
-    	//计算每个属性的比率，选择最大值
-    	int bestAttr = 0;  
-    	double maxGainRatio = 0;  
-    	
-    	for(int i = 0; i < attribute.size(); i++) {  
-    		double thisGainRatio = infoGainRatio.getGainRatio(i, dataset);  
-    		if(thisGainRatio > maxGainRatio) {  
-    			maxGainRatio = thisGainRatio;  
-    			bestAttr = i;  
-    		}  
-    	}  
-    	Map<String, Object> eq=new HashMap<>();
-    	eq.put("business", studentAccountId);
-		analyseService.list(1, Integer.MAX_VALUE, null, null, eq, null, null, null, null, null, null, null);
-    	System.out.println("最好的属性是:" + attribute.get(bestAttr));  
-    	return bestAttr;  
     }  
   
       
@@ -230,9 +194,37 @@ public class DecisionTree {
         list3.add("差");
         list3.add("差");
         dataset.add(list3);
+        ArrayList<String> list4=new ArrayList<>();
+        list4.add("<5");
+        list4.add("不了解");
+        list4.add("差");
+        list4.add("差");
+        list4.add("一般");
+        dataset.add(list4);
+        dataset.add(list4);
+        ArrayList<String> list5=new ArrayList<>();
+        list5.add("<5");
+        list5.add("不了解");
+        list5.add("良");
+        list5.add("良");
+        list5.add("良");
+        dataset.add(list5);
         DecisionTree dt = new DecisionTree();  
         TreeNode tree = dt.createDecisionTree(attribute, dataset);  
-        tree.print("");  
+        Map<String,String> map=new HashMap<>();
+        map.put("课后上机学习时间 （小时）","<5");
+        map.put("课前了解","不了解");
+        map.put("课堂学习","差");
+        map.put("平时成绩","差");
+        /*System.out.println(tree.getAttribute());
+        System.out.println(tree.isLeaf());
+        System.out.println(tree.getTargetValue());
+        System.out.println(tree.getAttributeValue());
+        System.out.println(tree.getChild().get(0).getAttribute());*/
+        String result="";
+        result=tree.studentPrint(result,"",map); 
+        System.out.println(result);
+       // tree.print("");  
     }  
   
 }

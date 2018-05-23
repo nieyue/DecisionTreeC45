@@ -1,6 +1,6 @@
 USE [decision_tree_c45_db]
 GO
-/****** Object:  Table [dbo].[teacher_course_tb]    Script Date: 05/22/2018 00:57:55 ******/
+/****** Object:  Table [dbo].[teacher_course_tb]    Script Date: 05/23/2018 19:28:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -21,8 +21,9 @@ INSERT [dbo].[teacher_course_tb] ([teacher_course_id], [course_id], [teacher_acc
 INSERT [dbo].[teacher_course_tb] ([teacher_course_id], [course_id], [teacher_account_id], [update_date]) VALUES (7, 2, 4, CAST(0x0000A8E601890BB9 AS DateTime))
 INSERT [dbo].[teacher_course_tb] ([teacher_course_id], [course_id], [teacher_account_id], [update_date]) VALUES (9, 3, 4, CAST(0x0000A8E601891122 AS DateTime))
 INSERT [dbo].[teacher_course_tb] ([teacher_course_id], [course_id], [teacher_account_id], [update_date]) VALUES (10, 5, 3, CAST(0x0000A8E7017E26F1 AS DateTime))
+INSERT [dbo].[teacher_course_tb] ([teacher_course_id], [course_id], [teacher_account_id], [update_date]) VALUES (11, 5, 4, CAST(0x0000A8E9013DBCA2 AS DateTime))
 SET IDENTITY_INSERT [dbo].[teacher_course_tb] OFF
-/****** Object:  Table [dbo].[survey_tb]    Script Date: 05/22/2018 00:57:55 ******/
+/****** Object:  Table [dbo].[survey_tb]    Script Date: 05/23/2018 19:28:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -44,8 +45,18 @@ PRIMARY KEY CLUSTERED
 GO
 SET IDENTITY_INSERT [dbo].[survey_tb] ON
 INSERT [dbo].[survey_tb] ([survey_id], [before_class_understand], [classroom_leaning], [operate_computer_leaning_time], [peacetime_score], [student_account_id], [teacher_course_id], [update_date]) VALUES (2, 1, 1, 1, 1, 6, 9, CAST(0x0000A8E8000C9C20 AS DateTime))
+INSERT [dbo].[survey_tb] ([survey_id], [before_class_understand], [classroom_leaning], [operate_computer_leaning_time], [peacetime_score], [student_account_id], [teacher_course_id], [update_date]) VALUES (3, 1, 1, 1, 1, 6, 7, CAST(0x0000A8E800E84CC0 AS DateTime))
+INSERT [dbo].[survey_tb] ([survey_id], [before_class_understand], [classroom_leaning], [operate_computer_leaning_time], [peacetime_score], [student_account_id], [teacher_course_id], [update_date]) VALUES (4, 1, 2, 2, 2, 8, 9, CAST(0x0000A8E800F14BD4 AS DateTime))
+INSERT [dbo].[survey_tb] ([survey_id], [before_class_understand], [classroom_leaning], [operate_computer_leaning_time], [peacetime_score], [student_account_id], [teacher_course_id], [update_date]) VALUES (5, 3, 3, 3, 3, 9, 9, CAST(0x0000A8E800F164FB AS DateTime))
+INSERT [dbo].[survey_tb] ([survey_id], [before_class_understand], [classroom_leaning], [operate_computer_leaning_time], [peacetime_score], [student_account_id], [teacher_course_id], [update_date]) VALUES (6, 1, 2, 3, 2, 8, 7, CAST(0x0000A8E800F19C22 AS DateTime))
+INSERT [dbo].[survey_tb] ([survey_id], [before_class_understand], [classroom_leaning], [operate_computer_leaning_time], [peacetime_score], [student_account_id], [teacher_course_id], [update_date]) VALUES (7, 3, 3, 1, 3, 9, 7, CAST(0x0000A8E800F1ACF5 AS DateTime))
+INSERT [dbo].[survey_tb] ([survey_id], [before_class_understand], [classroom_leaning], [operate_computer_leaning_time], [peacetime_score], [student_account_id], [teacher_course_id], [update_date]) VALUES (8, 1, 2, 2, 2, 6, 6, CAST(0x0000A8E9013D3233 AS DateTime))
+INSERT [dbo].[survey_tb] ([survey_id], [before_class_understand], [classroom_leaning], [operate_computer_leaning_time], [peacetime_score], [student_account_id], [teacher_course_id], [update_date]) VALUES (9, 1, 2, 3, 3, 8, 6, CAST(0x0000A8E9013DA5BC AS DateTime))
+INSERT [dbo].[survey_tb] ([survey_id], [before_class_understand], [classroom_leaning], [operate_computer_leaning_time], [peacetime_score], [student_account_id], [teacher_course_id], [update_date]) VALUES (10, 2, 3, 2, 3, 8, 11, CAST(0x0000A8E9013DC808 AS DateTime))
+INSERT [dbo].[survey_tb] ([survey_id], [before_class_understand], [classroom_leaning], [operate_computer_leaning_time], [peacetime_score], [student_account_id], [teacher_course_id], [update_date]) VALUES (11, 3, 3, 2, 3, 8, 10, CAST(0x0000A8E9013DEB06 AS DateTime))
+INSERT [dbo].[survey_tb] ([survey_id], [before_class_understand], [classroom_leaning], [operate_computer_leaning_time], [peacetime_score], [student_account_id], [teacher_course_id], [update_date]) VALUES (12, 1, 2, 1, 2, 6, 10, CAST(0x0000A8E9013F227B AS DateTime))
 SET IDENTITY_INSERT [dbo].[survey_tb] OFF
-/****** Object:  Table [dbo].[student_class_tb]    Script Date: 05/22/2018 00:57:55 ******/
+/****** Object:  Table [dbo].[student_class_tb]    Script Date: 05/23/2018 19:28:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -69,7 +80,7 @@ SET IDENTITY_INSERT [dbo].[student_class_tb] ON
 INSERT [dbo].[student_class_tb] ([student_class_id], [duty], [name], [update_date]) VALUES (1, N'二年级A班', N'二年A班', CAST(0x0000A8E6017CE643 AS DateTime))
 INSERT [dbo].[student_class_tb] ([student_class_id], [duty], [name], [update_date]) VALUES (2, N'三年级B班', N'三年B班', CAST(0x0000A8E6017CEEAD AS DateTime))
 SET IDENTITY_INSERT [dbo].[student_class_tb] OFF
-/****** Object:  Table [dbo].[score_tb]    Script Date: 05/22/2018 00:57:55 ******/
+/****** Object:  Table [dbo].[score_tb]    Script Date: 05/23/2018 19:28:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -88,12 +99,13 @@ PRIMARY KEY CLUSTERED
 GO
 SET IDENTITY_INSERT [dbo].[score_tb] ON
 INSERT [dbo].[score_tb] ([score_id], [score], [student_account_id], [teacher_course_id], [update_date]) VALUES (3, 33, 9, 6, CAST(0x0000A8E7015C9B66 AS DateTime))
-INSERT [dbo].[score_tb] ([score_id], [score], [student_account_id], [teacher_course_id], [update_date]) VALUES (4, 88, 9, 7, CAST(0x0000A8E70160391A AS DateTime))
-INSERT [dbo].[score_tb] ([score_id], [score], [student_account_id], [teacher_course_id], [update_date]) VALUES (6, 55, 9, 9, CAST(0x0000A8E7017892B4 AS DateTime))
-INSERT [dbo].[score_tb] ([score_id], [score], [student_account_id], [teacher_course_id], [update_date]) VALUES (10, 77, 6, 10, CAST(0x0000A8E701869BA5 AS DateTime))
-INSERT [dbo].[score_tb] ([score_id], [score], [student_account_id], [teacher_course_id], [update_date]) VALUES (12, 77, 8, 10, CAST(0x0000A8E70186952B AS DateTime))
+INSERT [dbo].[score_tb] ([score_id], [score], [student_account_id], [teacher_course_id], [update_date]) VALUES (4, 66, 9, 7, CAST(0x0000A8E9013BAE17 AS DateTime))
+INSERT [dbo].[score_tb] ([score_id], [score], [student_account_id], [teacher_course_id], [update_date]) VALUES (6, 55, 9, 9, CAST(0x0000A8E9013BA969 AS DateTime))
+INSERT [dbo].[score_tb] ([score_id], [score], [student_account_id], [teacher_course_id], [update_date]) VALUES (10, 66, 6, 10, CAST(0x0000A8E9013F4FAB AS DateTime))
+INSERT [dbo].[score_tb] ([score_id], [score], [student_account_id], [teacher_course_id], [update_date]) VALUES (12, 77, 8, 10, CAST(0x0000A8E9013F3501 AS DateTime))
+INSERT [dbo].[score_tb] ([score_id], [score], [student_account_id], [teacher_course_id], [update_date]) VALUES (13, 44, 8, 7, CAST(0x0000A8E9013BE37A AS DateTime))
 SET IDENTITY_INSERT [dbo].[score_tb] OFF
-/****** Object:  Table [dbo].[role_tb]    Script Date: 05/22/2018 00:57:55 ******/
+/****** Object:  Table [dbo].[role_tb]    Script Date: 05/23/2018 19:28:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -118,7 +130,7 @@ INSERT [dbo].[role_tb] ([role_id], [duty], [name], [update_date]) VALUES (1, N'�
 INSERT [dbo].[role_tb] ([role_id], [duty], [name], [update_date]) VALUES (2, N'教师', N'教师', CAST(0x0000A8E60156A394 AS DateTime))
 INSERT [dbo].[role_tb] ([role_id], [duty], [name], [update_date]) VALUES (3, N'学生', N'学生', CAST(0x0000A8E60156A394 AS DateTime))
 SET IDENTITY_INSERT [dbo].[role_tb] OFF
-/****** Object:  Table [dbo].[positional_tb]    Script Date: 05/22/2018 00:57:55 ******/
+/****** Object:  Table [dbo].[positional_tb]    Script Date: 05/23/2018 19:28:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -143,7 +155,7 @@ INSERT [dbo].[positional_tb] ([positional_id], [duty], [name], [update_date]) VA
 INSERT [dbo].[positional_tb] ([positional_id], [duty], [name], [update_date]) VALUES (2, N'比讲师高一级', N'副教授', CAST(0x0000A8E601661A15 AS DateTime))
 INSERT [dbo].[positional_tb] ([positional_id], [duty], [name], [update_date]) VALUES (3, N'比副教授高一级别', N'教授', CAST(0x0000A8E601662A8F AS DateTime))
 SET IDENTITY_INSERT [dbo].[positional_tb] OFF
-/****** Object:  Table [dbo].[major_tb]    Script Date: 05/22/2018 00:57:55 ******/
+/****** Object:  Table [dbo].[major_tb]    Script Date: 05/23/2018 19:28:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -167,7 +179,20 @@ SET IDENTITY_INSERT [dbo].[major_tb] ON
 INSERT [dbo].[major_tb] ([major_id], [duty], [name], [update_date]) VALUES (1, N'通信电子技术', N'通信工程', CAST(0x0000A8E60161F9B4 AS DateTime))
 INSERT [dbo].[major_tb] ([major_id], [duty], [name], [update_date]) VALUES (2, N'电脑', N'计算机与科学技术', CAST(0x0000A8E6016209BB AS DateTime))
 SET IDENTITY_INSERT [dbo].[major_tb] OFF
-/****** Object:  Table [dbo].[course_tb]    Script Date: 05/22/2018 00:57:55 ******/
+/****** Object:  Table [dbo].[data]    Script Date: 05/23/2018 19:28:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[data](
+	[列 0] [varchar](50) NULL
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[course_tb]    Script Date: 05/23/2018 19:28:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -196,7 +221,7 @@ INSERT [dbo].[course_tb] ([course_id], [duty], [name], [type], [update_date]) VA
 INSERT [dbo].[course_tb] ([course_id], [duty], [name], [type], [update_date]) VALUES (5, N'数据结构', N'数据结构', 3, CAST(0x0000A8E70166F75D AS DateTime))
 INSERT [dbo].[course_tb] ([course_id], [duty], [name], [type], [update_date]) VALUES (6, N'历史', N'历史', 4, CAST(0x0000A8E701670594 AS DateTime))
 SET IDENTITY_INSERT [dbo].[course_tb] OFF
-/****** Object:  Table [dbo].[analyse_tb]    Script Date: 05/22/2018 00:57:55 ******/
+/****** Object:  Table [dbo].[analyse_tb]    Script Date: 05/23/2018 19:28:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -220,19 +245,28 @@ GO
 SET ANSI_PADDING OFF
 GO
 SET IDENTITY_INSERT [dbo].[analyse_tb] ON
-INSERT [dbo].[analyse_tb] ([analyse_id], [business_id], [conclusion], [score], [sub_type], [type], [update_date]) VALUES (2, 9, N'您本次的成绩不合格，不要灰心，请改变学习方法！
-您的偏课：语文，只有33.0分!
-您的偏课：英语，只有55.0分!
-', 0.59, 3, 2, CAST(0x0000A8E7017892D4 AS DateTime))
-INSERT [dbo].[analyse_tb] ([analyse_id], [business_id], [conclusion], [score], [sub_type], [type], [update_date]) VALUES (3, 6, N'您的课程教育不合格，请改变教育方式！', 0, 4, 1, CAST(0x0000A8E701827EF0 AS DateTime))
-INSERT [dbo].[analyse_tb] ([analyse_id], [business_id], [conclusion], [score], [sub_type], [type], [update_date]) VALUES (4, 7, N'您的课程教育非常优秀，请下次继续加油，保持！', 1, 3, 1, CAST(0x0000A8E701603976 AS DateTime))
-INSERT [dbo].[analyse_tb] ([analyse_id], [business_id], [conclusion], [score], [sub_type], [type], [update_date]) VALUES (6, 9, N'您的课程教育不合格，请改变教育方式！', 0, 4, 1, CAST(0x0000A8E7017892E7 AS DateTime))
-INSERT [dbo].[analyse_tb] ([analyse_id], [business_id], [conclusion], [score], [sub_type], [type], [update_date]) VALUES (7, 6, N'您的整体成绩合格，请下次再接再厉，继续保持！', 0.77, 3, 2, CAST(0x0000A8E701869BB3 AS DateTime))
-INSERT [dbo].[analyse_tb] ([analyse_id], [business_id], [conclusion], [score], [sub_type], [type], [update_date]) VALUES (8, 10, N'您的课程教育不合格，请改变教育方式！', 0, 4, 1, CAST(0x0000A8E701869BB7 AS DateTime))
-INSERT [dbo].[analyse_tb] ([analyse_id], [business_id], [conclusion], [score], [sub_type], [type], [update_date]) VALUES (9, 4, N'您本次的成绩不合格，不要灰心，请改变学习方法！', 0, 4, 2, CAST(0x0000A8E70184DE29 AS DateTime))
-INSERT [dbo].[analyse_tb] ([analyse_id], [business_id], [conclusion], [score], [sub_type], [type], [update_date]) VALUES (10, 8, N'您的整体成绩合格，请下次再接再厉，继续保持！', 0.77, 3, 2, CAST(0x0000A8E701869530 AS DateTime))
+INSERT [dbo].[analyse_tb] ([analyse_id], [business_id], [conclusion], [score], [sub_type], [type], [update_date]) VALUES (11, 6, N'您的教师课程成绩的平均分为：55.0,您的自身成绩为：55.0。
+本次成绩分析中，影响您成绩的主要因素为：课后上机学习时间 （小时）！
+综合评定，您本次的成绩评定为：差,不要灰心，请改变学习方法！
+', 55, 1, 1, CAST(0x0000A8E9013BA97D AS DateTime))
+INSERT [dbo].[analyse_tb] ([analyse_id], [business_id], [conclusion], [score], [sub_type], [type], [update_date]) VALUES (12, 4, N'您的教师课程成绩的平均分为：55.0,您的自身成绩为：66.0。
+本次成绩分析中，影响您成绩的主要因素为：课堂学习！
+综合评定，您本次的成绩评定为：一般,请下次再接再厉，继续保持！
+', 55, 2, 1, CAST(0x0000A8E9013BAE20 AS DateTime))
+INSERT [dbo].[analyse_tb] ([analyse_id], [business_id], [conclusion], [score], [sub_type], [type], [update_date]) VALUES (13, 13, N'您的教师课程成绩的平均分为：55.0,您的自身成绩为：44.0。
+本次成绩分析中，影响您成绩的主要因素为：课堂学习！
+综合评定，您本次的成绩评定为：差,不要灰心，请改变学习方法！
+', 55, 1, 1, CAST(0x0000A8E9013BE380 AS DateTime))
+INSERT [dbo].[analyse_tb] ([analyse_id], [business_id], [conclusion], [score], [sub_type], [type], [update_date]) VALUES (14, 12, N'您的教师课程成绩的平均分为：77.0,您的自身成绩为：77.0。
+本次成绩分析中，由于数据过少，所以没有影响因素！
+综合评定，您本次的成绩评定为：一般,请下次再接再厉，继续保持！
+', 77, 2, 1, CAST(0x0000A8E9013F3505 AS DateTime))
+INSERT [dbo].[analyse_tb] ([analyse_id], [business_id], [conclusion], [score], [sub_type], [type], [update_date]) VALUES (15, 10, N'您的教师课程成绩的平均分为：71.5,您的自身成绩为：66.0。
+本次成绩分析中，由于数据过少，所以没有影响因素！
+综合评定，您本次的成绩评定为：一般,请下次再接再厉，继续保持！
+', 71.5, 2, 1, CAST(0x0000A8E9013F4FAF AS DateTime))
 SET IDENTITY_INSERT [dbo].[analyse_tb] OFF
-/****** Object:  Table [dbo].[account_tb]    Script Date: 05/22/2018 00:57:55 ******/
+/****** Object:  Table [dbo].[account_tb]    Script Date: 05/23/2018 19:28:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

@@ -94,11 +94,11 @@
 </div>
 <!-- update end-->
 <!-- 建议-->
-<div style="margin:10px;">
+ <div style="margin:10px;">
 <hr>
 <label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">建议</label>
 <div id="analyse" style="white-space:pre"></div>	
-</div>
+</div> 
 </div>
 <script>
  //1公共基础课、2专业基础课、3专业技术课，4公共选修课
@@ -110,26 +110,32 @@
 	{id:4,value:'公共选修课'}
 	];
   //初始化分析结果
-	business.self.getAnalyseList=function(){
+	business.self.getAnalyseList=function(score){
 	var params={};
-	if(business.self.attribute.studentAccountId){
+	//if(business.self.attribute.studentAccountId){
 	params.type=1;
-	params.businessId=business.self.attribute.studentAccountId;
+	console.log(score.scoreId);
+	params.businessId=score.scoreId;
 	business.getList({
        countUrl:'/analyse/countAll',
        listUrl:'/analyse/list',
+       isClear:false,
        data:'analyseList',
        success:function(){
-       var a=business.analyseList[0];
-       var courseSelect="<div><span>更新时间：</span>"+a.updateDate+"</div>";
-       courseSelect+="<div><span>占比：</span>"+a.score+"</div>";
-       courseSelect+="<div><span>建议：</span>"+a.conclusion+"</div>";
+       var al=business.analyseList;
+       var courseSelect="";
+       for(var i=0;i<al.length;i++){
+       courseSelect+="<div><span>更新时间：</span>"+al[i].updateDate+"</div>";
+       courseSelect+="<div><span>该教师课程平均分：</span>"+al[i].score+"</div>";
+       courseSelect+="<div><span>建议：</span>"+al[i].conclusion+"</div>";
+       courseSelect+="<hr/>";
        console.log(business.analyseList[0])
+       }
 		//数据
 		$("#analyse").html(courseSelect);
 		     }
      },params);
-	}
+	//}
 	}
 	if(business.self.attribute.teacherCourseId){
 	//params.type=1;
@@ -212,6 +218,7 @@
 						      "<span>"+business.scoreList[i].updateDate+"</span>"+
 						  "</td>"+
 						  "<td>"+
+						      "<button class='btn btn-success' onclick='business.self.getAnalyseList("+ JSON.stringify(business.scoreList[i])+")'>分析建议</span>"+
 						      "<button class='btn btn-warning updateRoleMenu updateScoreMenu' onclick='business.self.updateClick("+ JSON.stringify(business.scoreList[i])+")'>修改</span>"+
 						      "<button class='btn btn-danger deleteRoleMenu deleteScoreMenu' onclick='business.self.deleteClick("+business.scoreList[i].scoreId+")'>删除</span>"+
 						  "</td>"+
@@ -227,7 +234,6 @@
 	}
 	//初始化
 	business.initPage(business.self.getList);
-	business.self.getAnalyseList();
 	/**
      * 增加
      * p.addUrl 增加url

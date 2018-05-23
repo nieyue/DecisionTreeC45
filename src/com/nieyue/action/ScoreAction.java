@@ -11,7 +11,7 @@ import com.nieyue.bean.Account;
 import com.nieyue.bean.Course;
 import com.nieyue.bean.Score;
 import com.nieyue.bean.TeacherCourse;
-import com.nieyue.id3.DecisionTreeBusiness;
+import com.nieyue.c45.DecisionTreeC45Business;
 import com.nieyue.service.AccountService;
 import com.nieyue.service.AnalyseService;
 import com.nieyue.service.CourseService;
@@ -43,9 +43,10 @@ public class ScoreAction extends BaseAction<Score,Integer>{
 	@Autowired
 	private AnalyseService analyseService;
 	@Autowired
+	private DecisionTreeC45Business decisionTreeC45Business;
+/*	@Autowired
 	private DecisionTreeBusiness decisionTreeBusiness;
-	//private DecisionTreeBusiness decisionTreeBusiness=new DecisionTreeBusiness();
-	private Score score=new Score();//成绩模型
+*/	private Score score=new Score();//成绩模型
 	private String identifier;
 	
 	public String getIdentifier() {
@@ -92,11 +93,12 @@ public class ScoreAction extends BaseAction<Score,Integer>{
 		String r=super.add(score);
 		//决策树切入点
 		if(r.equals(SUCCESS)){
-			if(score.getStudentAccountId()!=null&&!score.getStudentAccountId().equals(0)){
-				decisionTreeBusiness.student(scoreService,analyseService,score.getStudentAccountId());				
-			}
-			if(score.getTeacherCourseId()!=null&&!score.getTeacherCourseId().equals(0)){
-				decisionTreeBusiness.teacher(scoreService,analyseService,score.getTeacherCourseId());				
+			if(score.getStudentAccountId()!=null
+					&&!score.getStudentAccountId().equals(0)
+					&&score.getTeacherCourseId()!=null
+					&&!score.getTeacherCourseId().equals(0)
+					){
+				decisionTreeC45Business.studentDecision(score.getTeacherCourseId(), score.getStudentAccountId());
 			}
 		}
 		return r;
@@ -114,11 +116,12 @@ public class ScoreAction extends BaseAction<Score,Integer>{
 			String rr=super.update(score);
 			//决策树切入点
 			if(rr.equals(SUCCESS)){
-				if(score.getStudentAccountId()!=null&&!score.getStudentAccountId().equals(0)){
-					decisionTreeBusiness.student(scoreService,analyseService,score.getStudentAccountId());				
-				}
-				if(score.getTeacherCourseId()!=null&&!score.getTeacherCourseId().equals(0)){
-					decisionTreeBusiness.teacher(scoreService,analyseService,score.getTeacherCourseId());				
+				if(score.getStudentAccountId()!=null
+						&&!score.getStudentAccountId().equals(0)
+						&&score.getTeacherCourseId()!=null
+						&&!score.getTeacherCourseId().equals(0)
+						){
+					decisionTreeC45Business.studentDecision(score.getTeacherCourseId(), score.getStudentAccountId());
 				}
 			}
 			return rr;
@@ -152,11 +155,12 @@ public class ScoreAction extends BaseAction<Score,Integer>{
 		String r=super.update(score);
 		//决策树切入点
 		if(r.equals(SUCCESS)){
-			if(score.getStudentAccountId()!=null&&!score.getStudentAccountId().equals(0)){
-				decisionTreeBusiness.student(scoreService,analyseService,score.getStudentAccountId());				
-			}
-			if(score.getTeacherCourseId()!=null&&!score.getTeacherCourseId().equals(0)){
-				decisionTreeBusiness.teacher(scoreService,analyseService,score.getTeacherCourseId());				
+			if(score.getStudentAccountId()!=null
+					&&!score.getStudentAccountId().equals(0)
+					&&score.getTeacherCourseId()!=null
+					&&!score.getTeacherCourseId().equals(0)
+					){
+				decisionTreeC45Business.studentDecision(score.getTeacherCourseId(), score.getStudentAccountId());
 			}
 		}
 		return r;
@@ -169,11 +173,12 @@ public class ScoreAction extends BaseAction<Score,Integer>{
 		String r=super.delete(score.getScoreId());
 		//决策树切入点
 		if(r.equals(SUCCESS)){
-			if(s.getStudentAccountId()!=null&&!s.getStudentAccountId().equals(0)){
-				decisionTreeBusiness.student(scoreService,analyseService,s.getStudentAccountId());				
-			}
-			if(s.getTeacherCourseId()!=null&&!s.getTeacherCourseId().equals(0)){
-				decisionTreeBusiness.teacher(scoreService,analyseService,s.getTeacherCourseId());				
+			if(score.getStudentAccountId()!=null
+					&&!score.getStudentAccountId().equals(0)
+					&&score.getTeacherCourseId()!=null
+					&&!score.getTeacherCourseId().equals(0)
+					){
+				decisionTreeC45Business.studentDecision(score.getTeacherCourseId(), score.getStudentAccountId());
 			}
 		}
 		return r;
