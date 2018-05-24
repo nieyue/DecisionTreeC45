@@ -222,8 +222,12 @@ public class DecisionTree {
         System.out.println(tree.getAttributeValue());
         System.out.println(tree.getChild().get(0).getAttribute());*/
         String result="";
+        List<String> list=new ArrayList<>();
+        list=tree.getAttributeList(list,map); 
         result=tree.studentPrint(result,"",map); 
+        System.out.println(list.get(0));
         System.out.println(result);
+       System.out.println(list.get(list.size()-1));
        // tree.print("");  
     }  
   

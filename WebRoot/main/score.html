@@ -7,7 +7,7 @@
 <button class="btn btn-warning " onclick="business.self.goBack()">返回</button>
 <button class="btn btn-primary addRoleMenu addScoreMenu" onclick="business.self.addClick()">添加成绩</button>
 </div>
-<!-- 成绩列表选择end -->
+
 <!-- 成绩列表 -->
 		<div style="width:100%" class="tableWrap">
 			<table class="table table-bordered" style="width:100%">
@@ -94,10 +94,15 @@
 </div>
 <!-- update end-->
 <!-- 建议-->
- <div style="margin:10px;">
-<hr>
-<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">建议</label>
-<div id="analyse" style="white-space:pre"></div>	
+<!-- 成绩列表选择end -->
+ <div style="margin:10px;display:none" id="teacherAnalyseWrap">
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">教师课程分析建议</label>
+<div id="analyse2" style="white-space:pre"></div>	
+</div> 
+<hr/>
+ <div style="margin:10px;display:none" id="studentAnalyseWrap">
+<label  class="text-danger nieyueText"  style="font-size:30px;color:#ccc;">学生建议</label>
+<div id="analyse" style="white-space:pre"></div>
 </div> 
 </div>
 <script>
@@ -126,20 +131,46 @@
        var courseSelect="";
        for(var i=0;i<al.length;i++){
        courseSelect+="<div><span>更新时间：</span>"+al[i].updateDate+"</div>";
-       courseSelect+="<div><span>该教师课程平均分：</span>"+al[i].score+"</div>";
        courseSelect+="<div><span>建议：</span>"+al[i].conclusion+"</div>";
        courseSelect+="<hr/>";
        console.log(business.analyseList[0])
        }
 		//数据
 		$("#analyse").html(courseSelect);
+		if(al.length>0){
+		$("#studentAnalyseWrap").show();
+		}
 		     }
      },params);
 	//}
 	}
+	business.self.getAnalyseList2=function(){
+	var params={};
+	params.type=2;
+	params.businessId=business.self.attribute.teacherCourseId;
+	business.getList({
+       countUrl:'/analyse/countAll',
+       listUrl:'/analyse/list',
+       isClear:false,
+       data:'analyseList',
+       success:function(){
+       var al=business.analyseList;
+       var courseSelect="";
+       for(var i=0;i<al.length;i++){
+       courseSelect+="<div><span>更新时间：</span>"+al[i].updateDate+"</div>";
+       courseSelect+="<div><span>该教师课程平均分：</span>"+al[i].score+"</div>";
+       courseSelect+="<div><span>建议：</span>"+al[i].conclusion+"</div>";
+       }
+		//数据
+		$("#analyse2").html(courseSelect);
+		if(al.length>0){
+		$("#teacherAnalyseWrap").show();
+		}
+		     }
+     },params);
+	}
 	if(business.self.attribute.teacherCourseId){
-	//params.type=1;
-	//params.businessId=business.self.attribute.teacherCourseId;
+	business.self.getAnalyseList2();
 	}
  //初始化教师课程列表
 	business.self.getCourseList=function(){
@@ -266,8 +297,8 @@
 			success:function(){
 			 $("#closeModal").click();
 			 //初始化
+			business.self.getAnalyseList2();
 			business.initPage(business.self.getList);
-			business.self.getAnalyseList();
 			}
 		}); 
 		});
@@ -307,8 +338,8 @@
       success:function(){
       $("#closeModal").click();
       //初始化
+		business.self.getAnalyseList2();
 		business.initPage(business.self.getList);
-		business.self.getAnalyseList();
       }
       }); 
 	});
@@ -328,8 +359,8 @@
       requestObject:'deleteScore',
       success:function(){
       //初始化
+		business.self.getAnalyseList2();
 	business.initPage(business.self.getList);
-	business.self.getAnalyseList();
       }
       })
      }

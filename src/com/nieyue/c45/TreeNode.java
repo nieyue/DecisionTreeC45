@@ -13,13 +13,14 @@ public class TreeNode {
     //for leaf node  
     public boolean isLeaf;  
     public String targetValue;  
+    
       
     TreeNode() {  
         attributeValue = new ArrayList<String>();  
         child = new ArrayList<TreeNode>();  
     }  
-      
-    public String getAttribute() {  
+
+	public String getAttribute() {  
         return attribute;  
     }  
       
@@ -83,7 +84,7 @@ public class TreeNode {
     }  
     public String studentPrint(String result,String depth,Map<String,String> map) {
     	if(!this.isLeaf){  
-    		System.out.println(depth + this.attribute+"!!!!");  
+    		System.out.println(depth + this.attribute+"!!!!"); 
     		depth += "\t";  
     		for(int i = 0; i < this.attributeValue.size(); i++) {  
     			Iterator<Entry<String, String>> mapIt = map.entrySet().iterator();
@@ -106,6 +107,28 @@ public class TreeNode {
     		System.out.println(depth + "[" + this.targetValue + "]");  
     	}  
     	return result;
+    	
+    }  
+    public List<String> getAttributeList(List<String> list,Map<String,String> map) {
+    	if(!this.isLeaf){  
+    		if(list.size()<=0||!list.contains(this.attribute)){    			
+    			list.add(this.attribute);
+    		}
+    		for(int i = 0; i < this.attributeValue.size(); i++) {  
+    			Iterator<Entry<String, String>> mapIt = map.entrySet().iterator();
+    			while(mapIt.hasNext()){
+    				Entry<String, String> entry = mapIt.next();
+    				if(
+    						entry.getKey().equals(this.attribute)
+    						&&
+    						entry.getValue().equals(this.attributeValue.get(i))){
+    					list=this.child.get(i).getAttributeList(list,map);  
+    				}
+    			}
+    		}  
+    	} else {  
+    	}  
+    	return list;
     	
     }  
       

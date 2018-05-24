@@ -128,14 +128,13 @@ public class DecisionTreeC45Business  {
 	  * 获取分析建议
 	  * @param subType 考试成绩结果
 	  * @param selfScore 自身成绩
-	  * @param avgScore 该课程的平均成绩
 	  * @param bestAttribute 最好的属性
 	  * @return
 	  */
-	 public String  getConclusion(Integer subType,Double selfScore,Double avgScore,String bestAttribute){
+	 public String  getConclusion(Integer subType,Double selfScore,String bestAttribute){
 		String conclusion="";
 		String subTypeStr = getSubType(subType);
-		conclusion+="您的教师课程成绩的平均分为："+avgScore+",您的自身成绩为："+selfScore+"。\n";
+		conclusion+="您的自身成绩为："+selfScore+"。\n";
 		if(StringUtils.isEmpty(bestAttribute)){
 			conclusion+="本次成绩分析中，由于数据过少，所以没有影响因素！\n";			
 		}else{
@@ -150,6 +149,22 @@ public class DecisionTreeC45Business  {
 		}else if(subType==4){
 			conclusion+="综合评定，您本次的成绩评定为："+subTypeStr+",请下次继续加油，保持！\n";
 		}
+		 return conclusion;
+	 }
+	 /**
+	  * 获取分析建议
+	  * @param avgScore 该课程的平均成绩
+	  * @param bestAttribute 最大影响的属性
+	  * @return
+	  */
+	 public String  getConclusion2(Double avgScore,String bestAttribute){
+		 String conclusion="";
+		 conclusion+="您的教师课程成绩的平均分为："+avgScore+"。\n";
+		 if(StringUtils.isEmpty(bestAttribute)){
+			 conclusion+="本次成绩分析中，由于数据过少，所以没有影响因素！\n";			
+		 }else{
+			 conclusion+="本次成绩分析中，影响当前教师课程的学生成绩的主要因素为："+bestAttribute+"！\n";			
+		 }
 		 return conclusion;
 	 }
     /**
@@ -208,7 +223,10 @@ public class DecisionTreeC45Business  {
 	        			l.add("4");//优秀
 	        		}
 	        	}
+				//必须是有结果的才添加
+				if(l.size()==attribute.size()+1){					
 	        	dataset.add(l);
+				}
 			}
 	        commonAvgScore=Arith.div(commonTotalScore, number);
 	       
@@ -241,6 +259,12 @@ public class DecisionTreeC45Business  {
 					map.put("平时成绩",getPeacetimeScoreStr(s.getPeacetimeScore()));
 				}
 	        	String result="";
+	        	//影响因素集合
+	        	List<String> attrList=new ArrayList<>();
+	        	attrList=tree.getAttributeList(attrList, map);
+	        	if(attrList.size()<=0){
+	        		return false;
+	        	}
 	        	result=tree.studentPrint(result, "", map);
 	        	if(StringUtils.isEmpty(result)){
 	        		return false;
@@ -249,7 +273,9 @@ public class DecisionTreeC45Business  {
 	        	if(scoreList.size()<=0){
 	        		return false;
 	        	}
+	        	//学生成绩的决策
 	        	Map<String, Object> analyseeq=new HashMap<>();
+	        	analyseeq.put("type", 1);
 	        	analyseeq.put("businessId", scoreList.get(0).getScoreId());
 	        	List<Analyse> al = analyseService.list(1, Integer.MAX_VALUE, null, null, analyseeq, null, null, null, null, null, null, null);
 	        	if(al.size()>0){
@@ -259,7 +285,7 @@ public class DecisionTreeC45Business  {
 	        		analyse.setScore(commonAvgScore);
 	        		analyse.setUpdateDate(new Date());
 	        		analyse.setBusinessId(scoreList.get(0).getScoreId());
-	        		analyse.setConclusion(getConclusion(new Integer(result), scoreList.get(0).getScore(), commonAvgScore, tree.getAttribute()));
+	        		analyse.setConclusion(getConclusion(new Integer(result), scoreList.get(0).getScore(), attrList.get(attrList.size()-1)));
 	        		analyseService.update(analyse);
 	        	}else{
 	        		Analyse analyse=new Analyse();
@@ -268,8 +294,32 @@ public class DecisionTreeC45Business  {
 	        		analyse.setScore(commonAvgScore);
 	        		analyse.setUpdateDate(new Date());
 	        		analyse.setBusinessId(scoreList.get(0).getScoreId());
-	        		analyse.setConclusion(getConclusion(new Integer(result), scoreList.get(0).getScore(), commonAvgScore, tree.getAttribute()));
+	        		analyse.setConclusion(getConclusion(new Integer(result), scoreList.get(0).getScore(), attrList.get(attrList.size()-1)));
 	        		analyseService.add(analyse);
+	        	}
+	        	//教师课程的决策
+	        	Map<String, Object> analyseeq2=new HashMap<>();
+	        	analyseeq2.put("type", 2);
+	        	analyseeq2.put("businessId", teacherCourseId);
+	        	List<Analyse> al2 = analyseService.list(1, Integer.MAX_VALUE, null, null, analyseeq2, null, null, null, null, null, null, null);
+	        	if(al2.size()>0){
+	        		Analyse analyse2 = al2.get(0);
+	        		analyse2.setType(2);
+	        		analyse2.setSubType(new Integer(result));
+	        		analyse2.setScore(commonAvgScore);
+	        		analyse2.setUpdateDate(new Date());
+	        		analyse2.setBusinessId(teacherCourseId);
+	        		analyse2.setConclusion(getConclusion2(commonAvgScore, attrList.get(0)));
+	        		analyseService.update(analyse2);
+	        	}else{
+	        		Analyse analyse2=new Analyse();
+	        		analyse2.setType(2);
+	        		analyse2.setSubType(new Integer(result));
+	        		analyse2.setScore(commonAvgScore);
+	        		analyse2.setUpdateDate(new Date());
+	        		analyse2.setBusinessId(teacherCourseId);
+	        		analyse2.setConclusion(getConclusion2( commonAvgScore, attrList.get(0)));
+	        		analyseService.add(analyse2);
 	        	}
 	        }
 	        return canDecision;

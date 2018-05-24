@@ -27,7 +27,7 @@ public class Analyse implements java.io.Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer analyseId;
 	/**
-	 * 类型1影响成绩合格因素
+	 * 类型1影响成绩因素，2影响教师课程的因素
 	 */
 	private Integer type;
 	/**
@@ -47,7 +47,7 @@ public class Analyse implements java.io.Serializable {
 	 */
 	private Date updateDate;
 	/**
-	 * 业务id,type=1学生账户成绩id
+	 * 业务id,type=1学生账户成绩id，type=2教师课程id
 	 */
 	private Integer businessId;
 	public Integer getAnalyseId() {
