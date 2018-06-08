@@ -297,7 +297,9 @@
 			success:function(){
 			 $("#closeModal").click();
 			 //初始化
+			if(business.self.attribute.teacherCourseId){
 			business.self.getAnalyseList2();
+			}
 			business.initPage(business.self.getList);
 			}
 		}); 
@@ -338,7 +340,10 @@
       success:function(){
       $("#closeModal").click();
       //初始化
+		business.self.getAnalyseList(score);
+		if(business.self.attribute.teacherCourseId){
 		business.self.getAnalyseList2();
+		}
 		business.initPage(business.self.getList);
       }
       }); 
@@ -359,7 +364,9 @@
       requestObject:'deleteScore',
       success:function(){
       //初始化
+		if(business.self.attribute.teacherCourseId){
 		business.self.getAnalyseList2();
+		}
 	business.initPage(business.self.getList);
       }
       })
